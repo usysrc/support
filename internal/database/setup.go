@@ -3,7 +3,6 @@ package database
 import (
 	"os"
 
-	"github.com/usysrc/support/internal/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -30,12 +29,6 @@ func SetupDatabase() *gorm.DB {
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
-	}
-
-	// Run migrations
-	migrationErr := db.AutoMigrate(&models.Ticket{})
-	if migrationErr != nil {
-		panic("failed to migrate database")
 	}
 
 	return db

@@ -5,6 +5,5 @@ ENV POSTGRES_PASSWORD=support
 ENV POSTGRES_DB=supportdb
 
 COPY setup.sql /docker-entrypoint-initdb.d/
-COPY migrations /migrations
 
 EXPOSE 5432
