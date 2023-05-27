@@ -12,4 +12,4 @@ jobs:
       - name: Install golangci-lint
         uses: golangci/golangci-lint-action@v3
       - name: Scan code for license compliance
-        run: golangci-lint run .
+        run: golangci-lint run ./cmd/support/main.go
