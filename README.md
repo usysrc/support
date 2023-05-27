@@ -1,29 +1,33 @@
 # Support
 
-a support ticket API
+ticketing API
 
-## How to start
+## How to run the API
 
-Start the containers
+1. Start the containers
 
 ```
 docker compose up
 ```
 
-Make sure goose can connect to the db.
+2. Migrate the database
 
-```
-goose postgres "host=db user=support password=support dbname=supportdb sslmode=disable" status
-```
+   Make sure [goose](https://github.com/pressly/goose) can connect to the db.
 
-Then run the db migration
+   ```
+   goose postgres "host=db user=support password=support dbname=supportdb sslmode=disable" status
+   ```
 
-```
-goose postgres "host=localhost user=support password=support dbname=supportdb sslmode=disable" up
-```
+   Then run the db migration
 
-Try to get the healthcheck endpoint
+   ```
+   goose postgres "host=localhost user=support password=support dbname=supportdb sslmode=disable" up
+   ```
 
-```
-curl localhost:8080/healthcheck
-```
+3. Test the API
+
+   Try to get the healthcheck endpoint
+
+   ```
+   curl localhost:8080/healthcheck
+   ```
