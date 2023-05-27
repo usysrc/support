@@ -1,19 +1,16 @@
 package models
 
 import (
-	"time"
-
-	"gopkg.in/mgo.v2/bson"
+	"gorm.io/gorm"
 )
 
 type Ticket struct {
-	ID          bson.ObjectId `bson:"_id,omitempty"`
-	Name        string        `bson:"name"`
-	Description string        `bson:"description"`
-	Status      string        `bson:"status"`
-	Progress    int           `bson:"progress"`
-	CreatedAt   time.Time     `bson:"created_at"`
-	UpdatedAt   time.Time     `bson:"updated_at"`
+	ID          string         `json:"id" bson:"_id,omitempty" gorm:"primaryKey"`
+	Title       string         `json:"title" bson:"title"`
+	Description string         `json:"description" bson:"description"`
+	CreatedAt   gorm.DeletedAt `json:"createdAt" bson:"createdAt" gorm:"index"`
+	UpdatedAt   gorm.DeletedAt `json:"updatedAt" bson:"updatedAt"`
+	DeletedAt   gorm.DeletedAt `json:"deletedAt" bson:"deletedAt" gorm:"index"`
 }
 
 func (t *Ticket) CollectionName() string {

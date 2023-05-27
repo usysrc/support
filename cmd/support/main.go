@@ -1,24 +1,32 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+
+	"github.com/usysrc/support/internal/api"
+	"github.com/usysrc/support/internal/models"
 )
 
 func main() {
-	r := gin.Default()
+	// Connect to the database
+	dsn := "host=localhost user=myuser password=mypassword dbname=mydb port=5432 sslmode=disable"
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
 
-	// Define your application routes here
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Hello, World!",
-		})
-	})
+	// Run migrations
+	db.AutoMigrate(&models.Ticket{})
+
+	// Set up the Gin router
+	router := api.SetupRouter(db)
 
 	// Start the server
-	err := r.Run(":8080")
-	if err != nil {
-		fmt.Println("Error starting server:", err)
+	if err := http.ListenAndServe(":8080", router); err != nil {
+		log.Fatal(err)
 	}
 }
