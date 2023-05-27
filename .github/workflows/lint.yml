@@ -4,23 +4,26 @@ on:
     branches: [main]
   pull_request:
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Lint Code Base
+        uses: github/super-linter@v5
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   scan:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install Scancode
+        run: |
+          sudo apt-get install -y openjdk-11-jre-headless
+          wget -q https://github.com/nexB/scancode-toolkit/releases/download/v3.0.1/scancode-toolkit-3.0.1.tar.bz2
+          tar xf scancode-toolkit-3.0.1.tar.bz2
+          export PATH=$PATH:"$(pwd)/scancode-toolkit-3.0.1/bin"
       - name: Scan code for license compliance
-        uses: github/super-linter@v5
-        with:
-          # Disable all linters except scancode
-          disabled-linters: "eslint,phpstan,php-codesniffer,phpmd,pylint,rubocop,remark-lint,shellcheck,stylelint,terraform"
-          enable-linters: "scancode,golangci-lint"
-          # Specify the Scancode and golangci-lint versions to use
-          scancode-version: "3.3.0"
-          golangci-lint-version: "v1.41.1"
-          # Specify the path(s) to scan
-          linters: |
-            scancode:
-              paths: .
-            golangci-lint:
-              paths: .
-              args: ["--timeout", "5m"]
+        run: |
+          scancode --license --json --classify --summary --delay 3 --timeout 120 .
