@@ -1,0 +1,10 @@
+FROM postgres:13.3-alpine
+
+ENV POSTGRES_USER=support
+ENV POSTGRES_PASSWORD=support
+ENV POSTGRES_DB=supportdb
+
+COPY setup.sql /docker-entrypoint-initdb.d/
+COPY migrations /migrations
+
+EXPOSE 5432

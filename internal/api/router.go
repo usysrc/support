@@ -30,5 +30,10 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		c.JSON(http.StatusOK, gin.H{"ticket": ticket})
 	})
 
+	// Register healthcheck endpoint
+	router.GET("/healthcheck", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+	})
+
 	return router
 }

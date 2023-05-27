@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  db:
+    hostname: db
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U support -d supportdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    hostname: app
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    environment:
+      DB_USER: "support"
+      DB_PASSWORD: "support"
+      DB_NAME: "supportdb"
+      DB_HOST: "db"
+      DB_SSLMODE: "disable"
+      DB_PORT: "5432"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+volumes:
+  db-data:

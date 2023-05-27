@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Create top-level directories
-mkdir cmd pkg internal
+mkdir cmd pkg internal migrations
 
 # Create cmd subdirectories
 mkdir -p cmd/support
