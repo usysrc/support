@@ -12,11 +12,15 @@ jobs:
         uses: github/super-linter@v5
         with:
           # Disable all linters except scancode
-          disabled-linters: "eslint,golangci-lint,phpstan,php-codesniffer,phpmd,pylint,rubocop,remark-lint,shellcheck,stylelint,terraform"
-          enable-linters: "scancode"
-          # Specify the Scancode version to use
+          disabled-linters: "eslint,phpstan,php-codesniffer,phpmd,pylint,rubocop,remark-lint,shellcheck,stylelint,terraform"
+          enable-linters: "scancode,golangci-lint"
+          # Specify the Scancode and golangci-lint versions to use
           scancode-version: "3.3.0"
+          golangci-lint-version: "v1.41.1"
           # Specify the path(s) to scan
           linters: |
             scancode:
               paths: .
+            golangci-lint:
+              paths: .
+              args: ["--timeout", "5m"]
