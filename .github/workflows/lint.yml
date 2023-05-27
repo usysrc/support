@@ -18,12 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install Scancode
-        run: |
-          sudo apt-get install -y openjdk-11-jre-headless
-          wget -q https://github.com/nexB/scancode-toolkit/releases/download/v3.0.1/scancode-toolkit-3.0.1.tar.bz2
-          tar xf scancode-toolkit-3.0.1.tar.bz2
-          export PATH=$PATH:"$(pwd)/scancode-toolkit-3.0.1/bin"
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - name: Install license-checker
+        run: npm install -g license-checker
       - name: Scan code for license compliance
         run: |
-          scancode --license --json --classify --summary --delay 3 --timeout 120 .
+          license-checker --json > licenses.json
