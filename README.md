@@ -12,22 +12,22 @@ docker compose up
 
 2. Migrate the database
 
-   Make sure [goose](https://github.com/pressly/goose) can connect to the db.
+Make sure [goose](https://github.com/pressly/goose) can connect to the db.
 
-   ```
-   goose postgres "host=db user=support password=support dbname=supportdb sslmode=disable" status
-   ```
+```
+goose postgres "host=db user=support password=support dbname=supportdb sslmode=disable" status
+```
 
-   Then run the db migration
+Then run the db migration
 
-   ```
-   goose postgres "host=localhost user=support password=support dbname=supportdb sslmode=disable" up
-   ```
+```
+goose postgres "host=localhost user=support password=support dbname=supportdb sslmode=disable" up
+```
 
 3. Test the API
 
-   Try to get the healthcheck endpoint
+Try to get the healthcheck endpoint
 
-   ```
-   curl localhost:8080/healthcheck
-   ```
+```
+curl localhost:8080/healthcheck
+```
