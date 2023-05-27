@@ -11,6 +11,6 @@ jobs:
       - name: Install golangci-lint
         run: |
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.41.1
-          export PATH=$PATH:$PWD/golangci-lint-1.41.1/bin/
+          export PATH=$PATH:$PWD/bin/
       - name: Scan code for license compliance
-        run: ./bin/golangci-lint run --disable-all --enable license .
+        run: golangci-lint run --disable-all --enable license .
