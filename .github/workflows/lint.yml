@@ -1,0 +1,22 @@
+name: License Compliance Scan
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Scan code for license compliance
+        uses: github/super-linter@v5
+        with:
+          # Disable all linters except scancode
+          disabled-linters: "eslint,golangci-lint,phpstan,php-codesniffer,phpmd,pylint,rubocop,remark-lint,shellcheck,stylelint,terraform"
+          enable-linters: "scancode"
+          # Specify the Scancode version to use
+          scancode-version: "3.3.0"
+          # Specify the path(s) to scan
+          linters: |
+            scancode:
+              paths: .
