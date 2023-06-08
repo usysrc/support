@@ -26,3 +26,14 @@ func GetTickets(db *gorm.DB) ([]models.Ticket, error) {
 	}
 	return tickets, nil
 }
+
+// UpdateTicket updates an existing ticket
+func UpdateTicket(ticket *models.Ticket, db *gorm.DB) error {
+	// Update the ticket in the database
+	result := db.Save(ticket)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}
